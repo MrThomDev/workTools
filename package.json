@@ -1,0 +1,24 @@
+{
+  "name": "worktools",
+  "version": "1.0.0",
+  "description": "A series of simple tools meant to make it a little easier to focus on work. The focus is not hyper productivity but sustainable productivity.",
+  "main": "index.js",
+  "scripts": {
+    "server": "npm run watch --prefix server",
+    "client": "npm start --prefix client",
+    "build": "npm build --prefix client",
+    "watch": "npm run server & npm run client",
+    "deploy": "npm run build --prefix client && npm start --prefix server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrThomDev/workTools.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MrThomDev/workTools/issues"
+  },
+  "homepage": "https://github.com/MrThomDev/workTools#readme"
+}
