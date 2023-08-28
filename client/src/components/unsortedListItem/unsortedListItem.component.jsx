@@ -1,7 +1,7 @@
 const UnsortedListItem = ({ index, item }) => {
   return (
-    <div className="unsortedList-container">
-      <span>{index + 1}</span>
+    <div className="unsortedList-container" key={index}>
+      <span>{`${index + 1}: `}</span>
       <span>{item}</span>
     </div>
   );
