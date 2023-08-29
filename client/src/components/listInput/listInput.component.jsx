@@ -1,43 +1,54 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 
 import { PriorityListContext } from "../../contexts/priorityList.context";
 
 import PriorityListButton from "../priorityListButton/priorityListButton.component";
-import UnsortedListItem from "../unsortedListItem/unsortedListItem.component";
-import PriorityQuestions from "../priorityQuestions/priorityQuestions.component";
+import UnsortedListItem from "../listItem/listItem.component";
+
+import "./listInput.style.css";
 
 const ListInput = () => {
   const {
     unsortedList,
-    setUnsortedList,
     userInput,
-    setUserInput,
-    sortState,
     setSortState,
     handleInputChange,
     handleAddButtonClick,
   } = useContext(PriorityListContext);
 
+  const handleBtnKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleAddButtonClick();
+    }
+  };
+
+  const handlePrioritizeBtn = () => {
+    if (unsortedList.length > 1) {
+      setSortState("questions");
+    } else {
+      console.error("Add more!");
+    }
+  };
+
   return (
-    <div id="listInput-container">
+    <div className="listInput-container">
       <input
+        className="list-input"
         id="priority item input"
         type="text"
         value={userInput}
-        placeholder="... add item"
+        placeholder="Add two or more items"
         onChange={handleInputChange}
+        onKeyDown={handleBtnKeyPress}
       />
       <div className="listInput-btn-container">
         <PriorityListButton
-          id="addBtn"
           btnText="Add Item"
           onHandle={handleAddButtonClick}
         />
         <PriorityListButton
           btnText="Prioritize"
-          onHandle={() => {
-            setSortState("questions");
-          }}
+          onHandle={handlePrioritizeBtn}
         />
       </div>
       <div className="unsortedList-container">

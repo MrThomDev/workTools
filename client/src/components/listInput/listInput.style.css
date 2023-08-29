@@ -1,0 +1,22 @@
+.list-input {
+  font-family: "Montserrat", sans-serif;
+}
+
+.listInput-container {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  background-color: yellow;
+}
+
+.list-input {
+  margin: 10px;
+}
+
+.listInput-btn-container {
+  color: aquamarine;
+  justify-content: space-between;
+  background-color: red;
+  margin-top: 10px;
+  padding: 5px 0 5px 0;
+}

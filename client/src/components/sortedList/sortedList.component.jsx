@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { PriorityListContext } from "../../contexts/priorityList.context";
 
-import UnsortedListItem from "../unsortedListItem/unsortedListItem.component";
+import UnsortedListItem from "../listItem/listItem.component";
 import PriorityListButton from "../priorityListButton/priorityListButton.component";
 
 const SortedList = () => {

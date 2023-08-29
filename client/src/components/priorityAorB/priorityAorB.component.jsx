@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { PriorityListContext } from "../../contexts/priorityList.context";
 import PriorityListButton from "../priorityListButton/priorityListButton.component";
-import UnsortedListItem from "../unsortedListItem/unsortedListItem.component";
 
 const PriorityAorB = () => {
   const {
@@ -10,7 +9,6 @@ const PriorityAorB = () => {
     setPrimaryIndex,
     secondaryIndex,
     setSecondaryIndex,
-    sortState,
     setSortState,
   } = useContext(PriorityListContext);
 
@@ -55,7 +53,6 @@ const PriorityAorB = () => {
           }}
         />
       </div>
-      <div>{`Primary: ${primaryIndex}\nSecondary: ${secondaryIndex}`}</div>
     </div>
   );
 };

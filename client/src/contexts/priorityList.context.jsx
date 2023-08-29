@@ -1,8 +1,7 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 
 import ListInput from "../components/listInput/listInput.component";
 import PriorityQuestions from "../components/priorityQuestions/priorityQuestions.component";
-import UnsortedListItem from "../components/unsortedListItem/unsortedListItem.component";
 import SortedList from "../components/sortedList/sortedList.component";
 
 export const PriorityListContext = createContext({
@@ -57,7 +56,7 @@ export const PriorityListProvier = ({ children }) => {
     secondaryIndex,
     setSecondaryIndex,
     sortObject,
-    handleInputChange: handleInputChange,
+    handleInputChange,
     handleAddButtonClick,
   };
   return (
