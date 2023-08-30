@@ -1,6 +1,6 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
-import { PriorityListContext } from "../../contexts/priorityList.context";
+import { PriorityListContext } from "../../../contexts/prioritylist/priorityList.context";
 
 import PriorityListButton from "../priorityListButton/priorityListButton.component";
 import UnsortedListItem from "../listItem/listItem.component";
@@ -8,12 +8,15 @@ import UnsortedListItem from "../listItem/listItem.component";
 import "./listInput.style.css";
 
 const ListInput = () => {
+  const [inputTitle, setInputTitle] = useState("");
+
   const {
     unsortedList,
+    setUnsortedList,
     userInput,
+    setUserInput,
     setSortState,
     handleInputChange,
-    handleAddButtonClick,
   } = useContext(PriorityListContext);
 
   const handleBtnKeyPress = (event) => {
@@ -22,25 +25,36 @@ const ListInput = () => {
     }
   };
 
+  const handleAddButtonClick = () => {
+    if (userInput.length > 0) {
+      setUnsortedList([...unsortedList, { item: userInput, count: 0 }]);
+      setUserInput("");
+    }
+    return;
+  };
+
   const handlePrioritizeBtn = () => {
     if (unsortedList.length > 1) {
       setSortState("questions");
     } else {
-      console.error("Add more!");
+      setInputTitle("Add at least 2 items");
     }
   };
 
   return (
     <div className="listInput-container">
-      <input
-        className="list-input"
-        id="priority item input"
-        type="text"
-        value={userInput}
-        placeholder="Add two or more items"
-        onChange={handleInputChange}
-        onKeyDown={handleBtnKeyPress}
-      />
+      <label htmlFor="priority-item-input" className="lable">
+        <span className="lable-title">{`${inputTitle}`}</span>
+        <input
+          className="list-input"
+          id="priority-item-input"
+          type="text"
+          value={userInput}
+          placeholder="Add items..."
+          onChange={handleInputChange}
+          onKeyDown={handleBtnKeyPress}
+        />
+      </label>
       <div className="listInput-btn-container">
         <PriorityListButton
           btnText="Add Item"

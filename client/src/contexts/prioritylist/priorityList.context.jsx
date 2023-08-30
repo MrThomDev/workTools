@@ -1,8 +1,8 @@
 import { createContext, useState } from "react";
 
-import ListInput from "../components/listInput/listInput.component";
-import PriorityQuestions from "../components/priorityQuestions/priorityQuestions.component";
-import SortedList from "../components/sortedList/sortedList.component";
+import ListInput from "../../components/priorityList/listInput/listInput.component";
+import PriorityQuestions from "../../components/priorityList/priorityQuestions/priorityQuestions.component";
+import SortedList from "../../components/priorityList/sortedList/sortedList.component";
 
 export const PriorityListContext = createContext({
   sortState: "",
@@ -14,7 +14,6 @@ export const PriorityListContext = createContext({
   secondaryIndex: 1,
   sortObject: {},
   handleInputChange: () => {},
-  handleAddButtonClick: () => {},
 });
 
 export const PriorityListProvier = ({ children }) => {
@@ -34,14 +33,6 @@ export const PriorityListProvier = ({ children }) => {
     setUserInput(event.target.value);
   };
 
-  const handleAddButtonClick = () => {
-    if (userInput.length > 0) {
-      setUnsortedList([...unsortedList, { item: userInput, count: 0 }]);
-      setUserInput("");
-    }
-    return;
-  };
-
   const value = {
     sortState,
     setSortState,
@@ -57,7 +48,6 @@ export const PriorityListProvier = ({ children }) => {
     setSecondaryIndex,
     sortObject,
     handleInputChange,
-    handleAddButtonClick,
   };
   return (
     <PriorityListContext.Provider value={value}>
