@@ -1,0 +1,7 @@
+.navigation-container {
+  display: flex;
+}
+
+.link {
+  margin: 5px 5px;
+}
