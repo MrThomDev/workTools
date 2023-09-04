@@ -1,27 +1,55 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { PomodoroContext } from "../../../contexts/pomodoro/pomodoro.context";
 
 function Input() {
-  const [selectedTime, setSelectedTime] = useState(20);
-  const [countdown, setCountdown] = useState(selectedTime * 60);
+  const { pomodoroState, setPomodoroState, timeLength } =
+    useContext(PomodoroContext);
+  const [countdown, setCountdown] = useState(timeLength[pomodoroState]);
   const [timerRunning, setTimerRunning] = useState(false);
+  const [cycleCount, setCycleCount] = useState({
+    pomodoro: 0,
+    shortBreak: 0,
+    longBreak: 0,
+  });
 
   useEffect(() => {
-    if (countdown > 0 && timerRunning) {
+    if (countdown >= 0 && timerRunning) {
       const timer = setInterval(() => {
         setCountdown((prevCountdown) => prevCountdown - 1);
       }, 1000);
       return () => clearInterval(timer);
-    } else if (countdown == 0) {
-      console.log("play sound?");
-      const finish = new Audio("audio/mp3/call-to-attention.mp3");
-      finish.play();
-      setTimerRunning(false);
+    } else if (countdown < 0) {
+      setCycleCount((prevCycleCount) => ({
+        ...prevCycleCount,
+        [pomodoroState]: prevCycleCount[pomodoroState] + 1,
+      }));
     }
   }, [countdown, timerRunning]);
 
-  const handleButtonClick = (time) => {
-    setSelectedTime(time);
-    setCountdown(time * 60);
+  useEffect(() => {
+    setTimerRunning(false);
+    setCountdown((prevCountdown) => timeLength[pomodoroState]);
+  }, [pomodoroState]);
+
+  useEffect(() => {
+    if (cycleCount.pomodoro === 0) {
+      return;
+    }
+    if (cycleCount.pomodoro % 4 !== 0 && pomodoroState === "pomodoro") {
+      setPomodoroState("shortBreak");
+    } else if (cycleCount.pomodoro % 4 === 0 && pomodoroState === "pomodoro") {
+      setPomodoroState((oldState) => "longBreak");
+    } else {
+      setPomodoroState("pomodoro");
+    }
+  }, [cycleCount.pomodoro, cycleCount.shortBreak, cycleCount.longBreak]);
+
+  const handleButtonClick = (state) => {
+    if (timerRunning) {
+      setTimerRunning(false);
+    }
+    setPomodoroState(state);
+    setCountdown((prevCountdown) => timeLength[state]);
   };
 
   const handleStart = () => {
@@ -29,7 +57,8 @@ function Input() {
   };
 
   const handleReset = () => {
-    setCountdown(selectedTime * 60);
+    setTimerRunning(false);
+    setCountdown(timeLength[pomodoroState]);
   };
 
   const displayCountdown = () => {
@@ -41,17 +70,20 @@ function Input() {
   return (
     <div>
       <div>
-        <button onClick={() => handleButtonClick(20)}>Pomodoro</button>
-        <button onClick={() => handleButtonClick(0.1)}>Short Break</button>
-        <button onClick={() => handleButtonClick(15)}>Long Break</button>
+        <button onClick={() => handleButtonClick("pomodoro")}>Pomodoro</button>
+        <button onClick={() => handleButtonClick("shortBreak")}>
+          Short Break
+        </button>
+        <button onClick={() => handleButtonClick("longBreak")}>
+          Long Break
+        </button>
       </div>
       <div>
-        <p>Selected Time: {selectedTime} minutes</p>
+        <p>Pomodoro State: {pomodoroState}</p>
         <p>Countdown: {displayCountdown()}</p>
       </div>
       <button onClick={handleStart}>Start/Pause</button>
       <button onClick={handleReset}>Reset</button>
-      <audio src="http://localhost:8000/audio/mp3/call-to-attention.mp3"></audio>
     </div>
   );
 }
